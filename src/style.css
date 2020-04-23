@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto Regular"), local("Roboto-Regular"),
+    url("../public/fonts/roboto-regular.woff2") format("woff2"),
+    url("../public/fonts/roboto-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Roboto Bold"), local("Roboto-Bold"),
+    url("../public/fonts/roboto-bold.woff2") format("woff2"),
+    url("../public/fonts/roboto-bold.woff") format("woff");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto, Tahoma, sans-serif;
+  background-color: #282c34;
+  color: #fff;
+}
