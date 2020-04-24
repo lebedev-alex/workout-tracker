@@ -4,12 +4,10 @@ import Header from './Header';
 import Calendar from './Calendar';
 
 const App = () => (
-  <React.StrictMode>
-    <div className="container">
-      <Header />
-      <Calendar />
-    </div>
-  </React.StrictMode>
+  <div className="container">
+    <Header />
+    <Calendar />
+  </div>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
