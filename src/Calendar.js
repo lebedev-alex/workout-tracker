@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-date-picker';
 import CalendarCell from './CalendarCell';
 
@@ -26,9 +26,27 @@ const Calendar = () => {
   const calendarCells = [];
   for (let i = 0; i < date.daysInMonth; i++) {
     calendarCells.push(
-      <CalendarCell key={i} isSelected={i + 1 === date.date} />
+      <CalendarCell key={i} date={i + 1} isSelected={i + 1 === date.date} />
     );
   }
+
+  useEffect(() => {
+    const calendar = document.querySelector('.calendar');
+
+    function handleClick(e) {
+      if (e.target.classList[0] !== 'cell') return;
+      const newObject = Object.assign({}, date, {
+        date: +e.target.dataset.date,
+        fullDate: new Date(date.year, date.month, +e.target.dataset.date)
+      });
+      setDate(newObject);
+    }
+    calendar.addEventListener('click', handleClick);
+
+    return () => {
+      calendar.removeEventListener('click', handleClick);
+    };
+  }, [date]);
 
   return (
     <main>
