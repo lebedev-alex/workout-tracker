@@ -75,4 +75,23 @@ header h1 {
   border-radius: 5px;
   width: calc(100% / 7);
   height: 18%;
+  cursor: pointer;
+}
+
+/* DatePicker */
+.react-date-picker {
+  margin-bottom: 15px;
+}
+
+.react-date-picker__wrapper {
+  border: 1px solid rgba(174, 192, 211, 0.3);
+  border-radius: 2px;
+}
+
+.react-date-picker__inputGroup__input {
+  color: #aec0d3;
+}
+
+.react-date-picker__button__icon {
+  stroke: #aec0d3;
 }
