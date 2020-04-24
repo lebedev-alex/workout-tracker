@@ -12,6 +12,7 @@
     "jsx-a11y/no-onchange": 2,
     "jsx-a11y/label-has-for": 0,
     "react/jsx-key": 2,
+    "global-require": 0,
     "prettier/prettier": [
       "error",
       {
