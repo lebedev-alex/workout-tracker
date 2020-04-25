@@ -41,8 +41,13 @@ header {
   padding: 3.5vh 0 3.5vh 0;
 }
 
-header h1 {
+header a {
   margin: 0 auto;
+  text-decoration: none;
+}
+
+.mainHeading {
+  color: #aec0d3;
 }
 
 .calendar {
@@ -76,6 +81,82 @@ header h1 {
   width: calc(100% / 7);
   height: 18%;
   cursor: pointer;
+  overflow: hidden;
+}
+
+.cellTextarea {
+  background-color: #182533;
+  color: #aec0d3;
+  border: none;
+  width: 90%;
+  height: 20%;
+  display: flex;
+  margin: 5% auto auto auto;
+  resize: none;
+  overflow: hidden;
+}
+
+.workoutEditor {
+  display: flex;
+  flex-direction: column;
+  margin: 1% auto;
+  border: 1px solid rgba(174, 192, 211, 0.3);
+  border-radius: 5px;
+  width: 70%;
+  height: 90%;
+}
+
+.workoutEditor h3 {
+  align-self: center;
+}
+
+label[for="muscleGroup"] {
+  margin-left: 1%;
+}
+
+#muscleGroup {
+  margin-left: 1%;
+}
+
+.addExercise {
+  font-weight: 700;
+  margin-left: 1%;
+  margin-top: 1%;
+  cursor: pointer;
+}
+
+.addExercise:hover {
+  opacity: 0.7;
+}
+
+.exercise {
+  margin-top: 2%;
+  margin-left: 1%;
+}
+
+.exerciseNameInput,
+.setNumberLabel,
+.setNumberInput,
+.repNumberLabel,
+.repNumberInput {
+  margin-left: 1%;
+}
+
+.addSet,
+.addRep {
+  margin-left: 0.5%;
+  font-style: normal;
+  font-weight: 700;
+  border: 1px solid rgba(174, 192, 211, 1);
+  border-radius: 7px;
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.addSet:hover,
+.addRep:hover {
+  color: #0e1621;
+  background-color: rgba(174, 192, 211, 1);
 }
 
 /* DatePicker */
