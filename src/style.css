@@ -35,6 +35,10 @@ h2 {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 header {
   display: flex;
   background-color: #17212b;
@@ -43,7 +47,6 @@ header {
 
 header a {
   margin: 0 auto;
-  text-decoration: none;
 }
 
 .mainHeading {
