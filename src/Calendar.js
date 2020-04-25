@@ -20,7 +20,6 @@ const Calendar = () => {
     const calendar = document.querySelector('.calendar');
 
     function handleClick(e) {
-      e.preventDefault();
       if (e.target.classList[0] !== 'cell') return;
 
       const newObject = Object.assign({}, dateInfo, {
@@ -32,19 +31,12 @@ const Calendar = () => {
     }
     calendar.addEventListener('click', handleClick);
 
-    function handleDoubleClick(e) {
-      if (e.target.classList[0] !== 'cell') return;
-      location = e.target.href;
-    }
-    calendar.addEventListener('dblclick', handleDoubleClick);
-
     if (localStorage.getItem('workouts') === null) {
       localStorage.setItem('workouts', '{}');
     }
 
     return () => {
       calendar.removeEventListener('click', handleClick);
-      calendar.removeEventListener('dblclick', handleDoubleClick);
     };
   }, [dateInfo, month, setDateInfo, year]);
 
