@@ -10,10 +10,12 @@ const CalendarCell = props => {
     setText('');
     const workouts = JSON.parse(localStorage.getItem('workouts'));
 
-    if (workouts[id]) {
-      setText(workouts[id]);
+    if (workouts[id] && workouts[id].musclegroup !== 'nothing') {
+      const preview = JSON.parse(localStorage.getItem('workouts'))[id]
+        .musclegroup;
+      setText(preview);
     }
-  });
+  }, [id]);
 
   return (
     <Link
@@ -24,18 +26,8 @@ const CalendarCell = props => {
       }}
       data-date={date}
     >
-      <textarea
-        className="cellTextarea"
-        type="text"
-        placeholder={date}
-        value={text}
-        onChange={e => {
-          setText(e.target.value);
-          const workouts = JSON.parse(localStorage.getItem('workouts'));
-          workouts[id] = e.target.value;
-          localStorage.setItem('workouts', JSON.stringify(workouts));
-        }}
-      />
+      <p className="cellDate">{date}</p>
+      <p className="cellPreview">{text || null}</p>
     </Link>
   );
 };

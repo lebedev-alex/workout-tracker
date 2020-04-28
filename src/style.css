@@ -85,18 +85,24 @@ header a {
   height: 18%;
   cursor: pointer;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.cellTextarea {
-  background-color: #182533;
+.cellDate,
+.cellPreview {
   color: #aec0d3;
-  border: none;
-  width: 90%;
-  height: 20%;
-  display: flex;
-  margin: 5% auto auto auto;
-  resize: none;
   overflow: hidden;
+}
+
+.cellDate {
+  margin-top: 5%;
+  margin-left: 5%;
+}
+
+.cellPreview {
+  font-weight: 700;
+  align-self: center;
 }
 
 .workoutEditor {
@@ -113,26 +119,34 @@ header a {
   align-self: center;
 }
 
-label[for="muscleGroup"] {
+label[for="muscleGroupSelect"] {
   margin-left: 1%;
 }
 
-#muscleGroup {
+#muscleGroupSelect {
   margin-left: 1%;
 }
 
 .addExercise {
-  font-weight: 700;
   margin-left: 1%;
   margin-top: 1%;
   cursor: pointer;
+  font-weight: 700;
 }
 
-.addExercise:hover {
+.addExercise:hover,
+.deleteExercise:hover {
   opacity: 0.7;
 }
 
+.deleteExercise {
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 700;
+}
+
 .exercise {
+  display: inline-block;
   margin-top: 2%;
   margin-left: 1%;
 }
@@ -141,12 +155,29 @@ label[for="muscleGroup"] {
 .setNumberLabel,
 .setNumberInput,
 .repNumberLabel,
-.repNumberInput {
+.repNumberInput,
+.deleteExercise {
   margin-left: 1%;
 }
 
+/* arrows removal */
+.setNumberInput::-webkit-outer-spin-button,
+.repNumberInput::-webkit-outer-spin-button,
+.setNumberInput::-webkit-inner-spin-button,
+.repNumberInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.setNumberInput,
+.repNumberInput {
+  -moz-appearance: textfield;
+}
+
 .addSet,
-.addRep {
+.addRep,
+.removeSet,
+.removeRep {
   margin-left: 0.5%;
   font-style: normal;
   font-weight: 700;
@@ -154,10 +185,22 @@ label[for="muscleGroup"] {
   border-radius: 7px;
   padding: 2px 6px;
   cursor: pointer;
+  background-color: #0e1621;
+  color: #aec0d3;
 }
 
 .addSet:hover,
-.addRep:hover {
+.addRep:hover,
+.removeSet:hover,
+.removeRep:hover {
+  color: #0e1621;
+  background-color: rgba(174, 192, 211, 0.7);
+}
+
+.addSet:active,
+.addRep:active,
+.removeSet:active,
+.removeRep:active {
   color: #0e1621;
   background-color: rgba(174, 192, 211, 1);
 }

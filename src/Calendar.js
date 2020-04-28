@@ -7,8 +7,8 @@ import { countDaysInMonth } from './helperFunctions';
 const Calendar = () => {
   const [dateInfo, setDateInfo] = useContext(DateContext);
   const { date, daysInMonth, month, year, monthString, fullDate } = dateInfo;
-
   const calendarCells = [];
+
   for (let i = 0; i < daysInMonth; i++) {
     const id = `${i + 1}${month}${year}`;
     calendarCells.push(
@@ -16,24 +16,29 @@ const Calendar = () => {
     );
   }
 
+  if (localStorage.getItem('workouts') === null) {
+    localStorage.setItem('workouts', '{}');
+  }
+
   useEffect(() => {
     const calendar = document.querySelector('.calendar');
 
     function handleClick(e) {
-      if (e.target.classList[0] !== 'cell') return;
-
-      const newObject = Object.assign({}, dateInfo, {
-        date: +e.target.dataset.date,
-        fullDate: new Date(year, month, +e.target.dataset.date)
-      });
-
-      setDateInfo(newObject);
+      if (e.target.className === 'cell') {
+        const newObject = Object.assign({}, dateInfo, {
+          date: e.target.dataset.date,
+          fullDate: new Date(year, month, e.target.dataset.date)
+        });
+        setDateInfo(newObject);
+      } else if (e.target.className === 'cellDate') {
+        const newObject = Object.assign({}, dateInfo, {
+          date: e.target.innerText,
+          fullDate: new Date(year, month, e.target.innerText)
+        });
+        setDateInfo(newObject);
+      }
     }
     calendar.addEventListener('click', handleClick);
-
-    if (localStorage.getItem('workouts') === null) {
-      localStorage.setItem('workouts', '{}');
-    }
 
     return () => {
       calendar.removeEventListener('click', handleClick);
