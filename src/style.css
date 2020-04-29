@@ -128,10 +128,15 @@ label[for="muscleGroupSelect"] {
 }
 
 .addExercise {
-  margin-left: 1%;
-  margin-top: 1%;
+  align-self: flex-start;
+  margin: 1%;
+  padding: 1%;
   cursor: pointer;
   font-weight: 700;
+  font-size: 0.8rem;
+  background-color: #0e1621;
+  color: #aec0d3;
+  border: 1px solid rgba(174, 192, 211, 0.3);
 }
 
 .addExercise:hover,

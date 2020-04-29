@@ -1,72 +1,51 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import DatePicker from 'react-date-picker';
 import CalendarCell from './CalendarCell';
 import DateContext from './DateContext';
 import { countDaysInMonth } from './helperFunctions';
 
 const Calendar = () => {
-  const [dateInfo, setDateInfo] = useContext(DateContext);
-  const { date, daysInMonth, month, year, monthString, fullDate } = dateInfo;
+  const [date, setDate] = useContext(DateContext);
+  const { fullDate } = date;
+  const day = fullDate.getDate();
+  const month = fullDate.getMonth();
+  const year = fullDate.getFullYear();
+  const monthString = new Intl.DateTimeFormat('en-US', {
+    month: 'long'
+  }).format(fullDate);
+  const daysInMonth = countDaysInMonth(
+    fullDate.getMonth() + 1,
+    fullDate.getFullYear()
+  );
   const calendarCells = [];
 
   for (let i = 0; i < daysInMonth; i++) {
-    const id = `${i + 1}${month}${year}`;
+    const id = +`${i + 1}${month}${year}`;
+
     calendarCells.push(
-      <CalendarCell key={i} date={i + 1} isSelected={i + 1 === date} id={id} />
+      <CalendarCell key={i} date={i + 1} isSelected={i + 1 === day} id={id} />
     );
   }
 
-  if (localStorage.getItem('workouts') === null) {
-    localStorage.setItem('workouts', '{}');
-  }
-
-  useEffect(() => {
-    const calendar = document.querySelector('.calendar');
-
-    function handleClick(e) {
-      if (e.target.className === 'cell') {
-        const newObject = Object.assign({}, dateInfo, {
-          date: e.target.dataset.date,
-          fullDate: new Date(year, month, e.target.dataset.date)
-        });
-        setDateInfo(newObject);
-      } else if (e.target.className === 'cellDate') {
-        const newObject = Object.assign({}, dateInfo, {
-          date: e.target.innerText,
-          fullDate: new Date(year, month, e.target.innerText)
-        });
-        setDateInfo(newObject);
-      }
+  function handleClick(e) {
+    if (e.target.className === 'cell' || e.target.className === 'cellDate') {
+      const targetDate = e.target.dataset.date || e.target.innerText;
+      setDate({ fullDate: new Date(year, month, targetDate) });
     }
-    calendar.addEventListener('click', handleClick);
-
-    return () => {
-      calendar.removeEventListener('click', handleClick);
-    };
-  }, [dateInfo, month, setDateInfo, year]);
+  }
 
   return (
     <main>
-      <section className="calendar">
+      <section
+        className="calendar"
+        onClick={handleClick}
+        onKeyDown={handleClick}
+        role="landmark"
+      >
         <h2>{`${monthString} ${year}`}</h2>
         <DatePicker
           value={fullDate}
-          onChange={updatedDate => {
-            const newObject = Object.assign({}, dateInfo, {
-              fullDate: updatedDate,
-              date: updatedDate.getDate(),
-              month: updatedDate.getMonth(),
-              year: updatedDate.getFullYear(),
-              daysInMonth: countDaysInMonth(
-                updatedDate.getMonth() + 1,
-                updatedDate.getFullYear()
-              ),
-              monthString: new Intl.DateTimeFormat('en-US', {
-                month: 'long'
-              }).format(updatedDate)
-            });
-            setDateInfo(newObject);
-          }}
+          onChange={updatedDate => setDate({ fullDate: updatedDate })}
           format="dd-MM-yyyy"
         />
         <div className="cellsContainer">{calendarCells}</div>
