@@ -42,7 +42,7 @@ a {
 header {
   display: flex;
   background-color: #17212b;
-  padding: 3.5vh 0 3.5vh 0;
+  padding: 1vh 0 1vh 0;
 }
 
 header a {
@@ -51,6 +51,7 @@ header a {
 
 .mainHeading {
   color: #aec0d3;
+  text-align: center;
 }
 
 .calendar {
@@ -102,7 +103,9 @@ header a {
 
 .cellPreview {
   font-weight: 700;
+  font-size: 1.2rem;
   align-self: center;
+  text-transform: uppercase;
 }
 
 .workoutEditor {
@@ -119,22 +122,23 @@ header a {
   align-self: center;
 }
 
-label[for="muscleGroupSelect"] {
+label[for="muscleGroup"] {
   margin-left: 1%;
 }
 
-#muscleGroupSelect {
+#muscleGroup {
   margin-left: 1%;
 }
 
 .addExercise {
   align-self: flex-start;
   margin: 1%;
+  margin-top: 1.5%;
   padding: 0.5% 1% 0.5% 1%;
   cursor: pointer;
   font-weight: 700;
   font-size: 0.8rem;
-  background-color: #0e1621;
+  background-color: #2b5278;
   color: #aec0d3;
   border: 1px solid rgba(174, 192, 211, 0.3);
 }
@@ -144,11 +148,16 @@ label[for="muscleGroupSelect"] {
   opacity: 0.7;
 }
 
+.addExercise:active,
+.deleteExercise:active {
+  opacity: 0.5;
+}
+
 .deleteExercise {
   display: inline-block;
   cursor: pointer;
   font-weight: 700;
-  background-color: #0e1621;
+  background-color: #6a2a26;
   color: #aec0d3;
   border: 1px solid rgba(174, 192, 211, 0.3);
   padding: 0.5% 1% 0.5% 1%;
@@ -160,16 +169,29 @@ label[for="muscleGroupSelect"] {
   margin-left: 1%;
 }
 
-.exerciseNameInput,
 .setNumberLabel,
-.setNumberInput,
 .repNumberLabel,
-.repNumberInput,
 .deleteExercise {
   margin-left: 1%;
 }
 
-/* arrows removal */
+.exerciseNameInput,
+.setNumberInput,
+.repNumberInput {
+  margin-left: 0.5%;
+}
+
+#muscleGroup,
+.exerciseNameInput,
+.setNumberInput,
+.repNumberInput {
+  background-color: #0e1621;
+  color: #aec0d3;
+  border: 1px solid rgba(174, 192, 211, 0.3);
+  padding: 0.5%;
+}
+
+/* removing arrows */
 .setNumberInput::-webkit-outer-spin-button,
 .repNumberInput::-webkit-outer-spin-button,
 .setNumberInput::-webkit-inner-spin-button,
@@ -190,9 +212,9 @@ label[for="muscleGroupSelect"] {
   margin-left: 0.5%;
   font-style: normal;
   font-weight: 700;
-  border: 1px solid rgba(174, 192, 211, 1);
+  border: 1px solid rgba(174, 192, 211, 0.5);
   border-radius: 7px;
-  padding: 2px 6px;
+  padding: 4px 8px;
   cursor: pointer;
   background-color: #0e1621;
   color: #aec0d3;
