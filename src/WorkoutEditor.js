@@ -1,64 +1,67 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from 'prop-types';
+import { useParams } from '@reach/router';
+import moment from 'moment';
 import Exercise from './Exercise';
-import DateContext from './DateContext';
 import { StorageDataCtx } from './StorageDataContext';
 
-const WorkoutEditor = props => {
-  const [date, setDate] = useContext(DateContext);
+const WorkoutEditor = () => {
   const [storageData, setStorageData] = useContext(StorageDataCtx);
-  const { fullDate } = date;
-  const day = fullDate.getDate();
-  const monthString = new Intl.DateTimeFormat('en-US', {
-    month: 'long'
-  }).format(fullDate);
-  const year = fullDate.getFullYear();
-  const { id: dateId } = props;
-
   const [exercises, setExercises] = useState([]);
   const [muscleGroup, setMuscleGroup] = useState('nothing');
 
+  const { id } = useParams();
+  const parsedDate = moment(id, 'DDMMYYYY')._d;
+  const day = parsedDate.getDate();
+  const month = parsedDate.getMonth();
+  const monthString = moment(month + 1, 'M').format('MMMM');
+  const year = parsedDate.getFullYear();
+
   function handleChange(e) {
     setMuscleGroup(e.target.value);
-    setStorageData({
-      [dateId]: {
+    setStorageData(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
         musclegroup: e.target.value
       }
-    });
+    }));
   }
 
-  function handleClick(e) {
+  function handleAddExercise() {
     setExercises([
       ...exercises,
-      <Exercise
-        key={exercises.length}
-        index={exercises.length}
-        dateId={dateId}
-      />
+      <Exercise key={exercises.length} index={exercises.length} dateId={id} />
     ]);
-    setStorageData({
-      [dateId]: {
-        musclegroup: storageData[dateId].musclegroup,
+    setStorageData(prevState => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
         exercises: [
-          ...storageData[dateId].exercises,
-          { name: '', sets: 0, reps: 0 }
+          ...prevState[id].exercises,
+          {
+            name: '',
+            sets: 0,
+            reps: 0
+          }
         ]
       }
-    });
+    }));
   }
 
   useEffect(() => {
-    const savedData = storageData[dateId];
+    const savedData = storageData[id];
     if (savedData) {
       setMuscleGroup(savedData.musclegroup);
     } else {
-      storageData[dateId] = {
-        musclegroup: 'nothing',
-        exercises: []
-      };
-      setStorageData(storageData);
+      setStorageData(prevState => ({
+        ...prevState,
+        [id]: {
+          exercises: [],
+          musclegroup: 'nothing'
+        }
+      }));
     }
-  }, [dateId, setStorageData, storageData]);
+  }, [id, setStorageData, storageData]);
 
   return (
     <section className="workoutEditor">
@@ -84,15 +87,11 @@ const WorkoutEditor = props => {
         </label>
       </div>
       {exercises.map(item => item)}
-      <button type="button" className="addExercise" onClick={handleClick}>
+      <button type="button" className="addExercise" onClick={handleAddExercise}>
         + add exercise
       </button>
     </section>
   );
-};
-
-WorkoutEditor.propTypes = {
-  id: PropTypes.string
 };
 
 export default WorkoutEditor;

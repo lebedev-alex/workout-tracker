@@ -1,18 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-date-picker';
+import moment from 'moment';
 import CalendarCell from './CalendarCell';
-import DateContext from './DateContext';
-import { countDaysInMonth } from './helperFunctions';
+import { countDaysInMonth, addZ } from './helperFunctions';
 
 const Calendar = () => {
-  const [date, setDate] = useContext(DateContext);
-  const { fullDate } = date;
+  const [fullDate, setFullDate] = useState(new Date());
   const day = fullDate.getDate();
   const month = fullDate.getMonth();
   const year = fullDate.getFullYear();
-  const monthString = new Intl.DateTimeFormat('en-US', {
-    month: 'long'
-  }).format(fullDate);
+  const monthString = moment(month + 1, 'M').format('MMMM');
   const daysInMonth = countDaysInMonth(
     fullDate.getMonth() + 1,
     fullDate.getFullYear()
@@ -20,32 +17,20 @@ const Calendar = () => {
   const calendarCells = [];
 
   for (let i = 0; i < daysInMonth; i++) {
-    const id = +`${i + 1}${month}${year}`;
+    const id = `${addZ(i + 1)}${addZ(month + 1)}${year}`;
 
     calendarCells.push(
-      <CalendarCell key={i} date={i + 1} isSelected={i + 1 === day} id={id} />
+      <CalendarCell key={i} date={i + 1} isToday={i + 1 === day} id={id} />
     );
-  }
-
-  function handleClick(e) {
-    if (e.target.className === 'cell' || e.target.className === 'cellDate') {
-      const targetDate = e.target.dataset.date || e.target.innerText;
-      setDate({ fullDate: new Date(year, month, targetDate) });
-    }
   }
 
   return (
     <main>
-      <section
-        className="calendar"
-        onClick={handleClick}
-        onKeyDown={handleClick}
-        role="landmark"
-      >
+      <section className="calendar">
         <h2>{`${monthString} ${year}`}</h2>
         <DatePicker
           value={fullDate}
-          onChange={updatedDate => setDate({ fullDate: updatedDate })}
+          onChange={updatedDate => setFullDate(updatedDate)}
           format="dd-MM-yyyy"
         />
         <div className="cellsContainer">{calendarCells}</div>

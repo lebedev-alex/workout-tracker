@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
 
 const CalendarCell = props => {
-  const { isSelected, date, id } = props;
+  const { isToday, date, id } = props;
   const [text, setText] = useState('');
 
   // useEffect(() => {
@@ -22,7 +22,7 @@ const CalendarCell = props => {
       to={`/workout/${id}`}
       className="cell"
       style={{
-        backgroundColor: `${isSelected ? 'rgba(43, 82, 120, 0.8)' : ''}`
+        backgroundColor: `${isToday ? 'rgba(43, 82, 120, 0.8)' : ''}`
       }}
       data-date={date}
     >
@@ -34,9 +34,9 @@ const CalendarCell = props => {
 };
 
 CalendarCell.propTypes = {
-  isSelected: PropTypes.bool,
+  isToday: PropTypes.bool,
   date: PropTypes.number,
-  id: PropTypes.number
+  id: PropTypes.string
 };
 
 export default CalendarCell;
