@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-export const StorageDataCtx = createContext();
+export const StorageDataContext = createContext();
 
-export function StorageDataContext({ children }) {
+export function StorageDataProvider({ children }) {
   const state = useState(() => {
     const storageData = localStorage.getItem('workouts');
     return storageData ? JSON.parse(storageData) : {};
@@ -16,10 +16,12 @@ export function StorageDataContext({ children }) {
   }, [data]);
 
   return (
-    <StorageDataCtx.Provider value={state}>{children}</StorageDataCtx.Provider>
+    <StorageDataContext.Provider value={state}>
+      {children}
+    </StorageDataContext.Provider>
   );
 }
 
-StorageDataContext.propTypes = {
+StorageDataProvider.propTypes = {
   children: PropTypes.object
 };

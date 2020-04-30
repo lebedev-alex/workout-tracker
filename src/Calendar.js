@@ -14,7 +14,7 @@ const Calendar = () => {
     fullDate.getMonth() + 1,
     fullDate.getFullYear()
   );
-  const calendarCells = []; // сделать стейт? как передавать id?
+  const calendarCells = [];
 
   for (let i = 0; i < daysInMonth; i++) {
     const id = `${addZ(i + 1)}${addZ(month + 1)}${year}`;
@@ -30,6 +30,7 @@ const Calendar = () => {
         <h2>{`${monthString} ${year}`}</h2>
         <DatePicker
           value={fullDate}
+          clearIcon={null}
           onChange={updatedDate => setFullDate(updatedDate)}
           format="dd-MM-yyyy"
         />

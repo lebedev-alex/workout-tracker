@@ -2,43 +2,42 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from '@reach/router';
 import moment from 'moment';
 import Exercise from './Exercise';
-import { StorageDataCtx } from './StorageDataContext';
+import { StorageDataContext } from './StorageDataContext';
 
 const WorkoutEditor = () => {
-  const [storageData, setStorageData] = useContext(StorageDataCtx);
-  const [exercises, setExercises] = useState([]);
+  const [storageData, setStorageData] = useContext(StorageDataContext);
   const [muscleGroup, setMuscleGroup] = useState('nothing');
 
   const { id } = useParams();
-
   const parsedDate = moment(id, 'DDMMYYYY')._d;
   const day = parsedDate.getDate();
   const month = parsedDate.getMonth();
   const monthString = moment(month + 1, 'M').format('MMMM');
   const year = parsedDate.getFullYear();
 
-  function handleChange(e) {
-    setMuscleGroup(e.target.value);
+  function handleMuscleGroupChange(e) {
+    const newMuscleGroup = e.target.value;
+    setMuscleGroup(newMuscleGroup);
     setStorageData(prevState => ({
       ...prevState,
       [id]: {
         ...prevState[id],
-        musclegroup: e.target.value
+        musclegroup: newMuscleGroup
       }
     }));
   }
 
   function handleAddExercise() {
-    setExercises([
-      ...exercises,
-      <Exercise
-        key={exercises.length}
-        index={exercises.length}
-        dateId={id}
-        editorState={exercises}
-        editorStateHandler={setExercises}
-      />
-    ]);
+    if (!storageData[id].exercises) {
+      setStorageData(prevState => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          exercises: []
+        }
+      }));
+    }
+
     setStorageData(prevState => ({
       ...prevState,
       [id]: {
@@ -56,43 +55,10 @@ const WorkoutEditor = () => {
   }
 
   useEffect(() => {
-    const savedData = storageData[id];
-
-    if (savedData) {
-      setMuscleGroup(savedData.musclegroup);
-    } else {
-      setStorageData(prevState => ({
-        ...prevState,
-        [id]: {
-          exercises: [],
-          musclegroup: 'nothing'
-        }
-      }));
+    if (storageData[id] && storageData[id].musclegroup !== 'nothing') {
+      setMuscleGroup(storageData[id].musclegroup);
     }
-
-    if (
-      savedData &&
-      savedData.exercises.length !== 0 &&
-      exercises.length === 0
-    ) {
-      const savedExercisesCount = savedData.exercises.length;
-      let savedExercises = [];
-
-      for (let i = 0; i < savedExercisesCount; i++) {
-        savedExercises = [
-          ...savedExercises,
-          <Exercise
-            key={savedExercises.length}
-            index={savedExercises.length}
-            dateId={id}
-            editorState={exercises}
-            editorStateHandler={setExercises}
-          />
-        ];
-      }
-      setExercises(savedExercises);
-    }
-  }, [exercises, exercises.length, id, setStorageData, storageData]);
+  }, [id, storageData]);
 
   return (
     <section className="workoutEditor">
@@ -105,8 +71,8 @@ const WorkoutEditor = () => {
           <select
             id="muscleGroupSelect"
             value={muscleGroup}
-            onChange={handleChange}
-            onBlur={handleChange}
+            onChange={handleMuscleGroupChange}
+            onBlur={handleMuscleGroupChange}
           >
             <option value="nothing">nothing</option>
             <option value="chest">chest</option>
@@ -117,7 +83,11 @@ const WorkoutEditor = () => {
           </select>
         </label>
       </div>
-      {exercises.map(item => item)}
+      {storageData[id] && storageData[id].exercises
+        ? storageData[id].exercises.map((item, index) => (
+            <Exercise key={index} index={index} dateId={id} />
+          ))
+        : null}
       <button type="button" className="addExercise" onClick={handleAddExercise}>
         + add exercise
       </button>

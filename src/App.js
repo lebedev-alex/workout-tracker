@@ -4,17 +4,17 @@ import { Router } from '@reach/router';
 import Header from './Header';
 import Calendar from './Calendar';
 import WorkoutEditor from './WorkoutEditor';
-import { StorageDataContext } from './StorageDataContext';
+import { StorageDataProvider } from './StorageDataContext';
 
 const App = () => (
   <div>
     <Header />
-    <StorageDataContext>
+    <StorageDataProvider>
       <Router>
         <Calendar path="/" />
         <WorkoutEditor path="/workout/:id" />
       </Router>
-    </StorageDataContext>
+    </StorageDataProvider>
   </div>
 );
 

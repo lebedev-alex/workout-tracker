@@ -1,19 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
-import { StorageDataCtx } from './StorageDataContext';
+import { StorageDataContext } from './StorageDataContext';
 
 const CalendarCell = props => {
   const { isToday, date, id } = props;
-  const [text, setText] = useState('');
-  const [storageData] = useContext(StorageDataCtx);
-
-  useEffect(() => {
-    if (storageData[id] && storageData[id].musclegroup !== 'nothing') {
-      const preview = storageData[id].musclegroup;
-      setText(preview);
-    }
-  }, [id, storageData]);
+  const [storageData] = useContext(StorageDataContext);
 
   return (
     <Link
@@ -22,11 +14,12 @@ const CalendarCell = props => {
       style={{
         backgroundColor: `${isToday ? 'rgba(43, 82, 120, 0.8)' : ''}`
       }}
-      data-date={date}
     >
       <p className="cellDate">{date}</p>
-      <p className="cellPreview">{text}</p>
-      {/* hide from DOM? */}
+
+      {storageData[id] && storageData[id].musclegroup !== 'nothing' ? (
+        <p className="cellPreview">{storageData[id].musclegroup}</p>
+      ) : null}
     </Link>
   );
 };
