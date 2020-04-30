@@ -14,7 +14,7 @@
     "react/jsx-key": 2,
     "global-require": 0,
     "no-restricted-globals": 1,
-    "jsx-a11y/aria-role": 0,
+    "jsx-a11y/aria-role": 1,
     "prettier/prettier": [
       "error",
       {
