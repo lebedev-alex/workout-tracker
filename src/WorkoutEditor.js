@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from '@reach/router';
 import moment from 'moment';
 import Exercise from './Exercise';
@@ -6,7 +6,6 @@ import { StorageDataContext } from './StorageDataContext';
 
 const WorkoutEditor = () => {
   const [storageData, setStorageData] = useContext(StorageDataContext);
-  const [muscleGroup, setMuscleGroup] = useState('nothing');
 
   const { id } = useParams();
   const parsedDate = moment(id, 'DDMMYYYY')._d;
@@ -17,7 +16,6 @@ const WorkoutEditor = () => {
 
   function handleMuscleGroupChange(e) {
     const newMuscleGroup = e.target.value;
-    setMuscleGroup(newMuscleGroup);
     setStorageData(prevState => ({
       ...prevState,
       [id]: {
@@ -28,22 +26,12 @@ const WorkoutEditor = () => {
   }
 
   function handleAddExercise() {
-    if (!storageData[id].exercises) {
-      setStorageData(prevState => ({
-        ...prevState,
-        [id]: {
-          ...prevState[id],
-          exercises: []
-        }
-      }));
-    }
-
     setStorageData(prevState => ({
       ...prevState,
       [id]: {
         ...prevState[id],
         exercises: [
-          ...prevState[id].exercises,
+          ...(prevState[id].exercises ? prevState[id].exercises : []),
           {
             name: '',
             sets: 0,
@@ -54,12 +42,6 @@ const WorkoutEditor = () => {
     }));
   }
 
-  useEffect(() => {
-    if (storageData[id] && storageData[id].musclegroup !== 'nothing') {
-      setMuscleGroup(storageData[id].musclegroup);
-    }
-  }, [id, storageData]);
-
   return (
     <section className="workoutEditor">
       <h3>
@@ -69,8 +51,10 @@ const WorkoutEditor = () => {
         <label htmlFor="muscleGroup">
           What are you going to smash today?
           <select
-            id="muscleGroupSelect"
-            value={muscleGroup}
+            id="muscleGroup"
+            value={
+              (storageData[id] && storageData[id].musclegroup) || 'nothing'
+            }
             onChange={handleMuscleGroupChange}
             onBlur={handleMuscleGroupChange}
           >
