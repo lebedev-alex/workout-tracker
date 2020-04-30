@@ -40,8 +40,8 @@ const WorkoutEditor = () => {
           ...prevState[id].exercises,
           {
             name: '',
-            sets: 0,
-            reps: 0
+            sets: '',
+            reps: ''
           }
         ]
       }
