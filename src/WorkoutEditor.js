@@ -50,6 +50,7 @@ const WorkoutEditor = () => {
 
   useEffect(() => {
     const savedData = storageData[id];
+
     if (savedData) {
       setMuscleGroup(savedData.musclegroup);
     } else {
@@ -61,7 +62,28 @@ const WorkoutEditor = () => {
         }
       }));
     }
-  }, [id, setStorageData, storageData]);
+
+    if (
+      savedData &&
+      savedData.exercises.length !== 0 &&
+      exercises.length === 0
+    ) {
+      const savedExercisesCount = savedData.exercises.length;
+      let savedExercises = [];
+
+      for (let i = 0; i < savedExercisesCount; i++) {
+        savedExercises = [
+          ...savedExercises,
+          <Exercise
+            key={savedExercises.length}
+            index={savedExercises.length}
+            dateId={id}
+          />
+        ];
+      }
+      setExercises(savedExercises);
+    }
+  }, [exercises, exercises.length, id, setStorageData, storageData]);
 
   return (
     <section className="workoutEditor">
