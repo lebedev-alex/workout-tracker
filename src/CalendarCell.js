@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from '@reach/router';
 import PropTypes from 'prop-types';
+import { StorageDataCtx } from './StorageDataContext';
 
 const CalendarCell = props => {
   const { isToday, date, id } = props;
   const [text, setText] = useState('');
+  const [storageData] = useContext(StorageDataCtx);
 
-  // useEffect(() => {
-  //   setText('');
-  //   const workouts = JSON.parse(localStorage.getItem('workouts'));
-
-  //   if (workouts[id] && workouts[id].musclegroup !== 'nothing') {
-  //     const preview = JSON.parse(localStorage.getItem('workouts'))[id]
-  //       .musclegroup;
-  //     setText(preview);
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    if (storageData[id] && storageData[id].musclegroup !== 'nothing') {
+      const preview = storageData[id].musclegroup;
+      setText(preview);
+    }
+  }, [id, storageData]);
 
   return (
     <Link
@@ -27,8 +25,8 @@ const CalendarCell = props => {
       data-date={date}
     >
       <p className="cellDate">{date}</p>
-      <p className="cellPreview">{text || null}</p>
-      {/* убрать из дома? */}
+      <p className="cellPreview">{text}</p>
+      {/* hide from DOM? */}
     </Link>
   );
 };
