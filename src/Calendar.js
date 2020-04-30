@@ -14,7 +14,7 @@ const Calendar = () => {
     fullDate.getMonth() + 1,
     fullDate.getFullYear()
   );
-  const calendarCells = [];
+  const calendarCells = []; // сделать стейт? как передавать id?
 
   for (let i = 0; i < daysInMonth; i++) {
     const id = `${addZ(i + 1)}${addZ(month + 1)}${year}`;

@@ -10,6 +10,7 @@ const WorkoutEditor = () => {
   const [muscleGroup, setMuscleGroup] = useState('nothing');
 
   const { id } = useParams();
+
   const parsedDate = moment(id, 'DDMMYYYY')._d;
   const day = parsedDate.getDate();
   const month = parsedDate.getMonth();
@@ -30,7 +31,13 @@ const WorkoutEditor = () => {
   function handleAddExercise() {
     setExercises([
       ...exercises,
-      <Exercise key={exercises.length} index={exercises.length} dateId={id} />
+      <Exercise
+        key={exercises.length}
+        index={exercises.length}
+        dateId={id}
+        editorState={exercises}
+        editorStateHandler={setExercises}
+      />
     ]);
     setStorageData(prevState => ({
       ...prevState,
@@ -40,8 +47,8 @@ const WorkoutEditor = () => {
           ...prevState[id].exercises,
           {
             name: '',
-            sets: '',
-            reps: ''
+            sets: 0,
+            reps: 0
           }
         ]
       }
@@ -78,6 +85,8 @@ const WorkoutEditor = () => {
             key={savedExercises.length}
             index={savedExercises.length}
             dateId={id}
+            editorState={exercises}
+            editorStateHandler={setExercises}
           />
         ];
       }

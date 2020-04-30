@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { StorageDataCtx } from './StorageDataContext';
 
 const Exercise = props => {
-  const { index, dateId } = props;
+  const { index, dateId, editorStateHandler, editorState } = props;
+
   const [exerciseDetails, setExerciseDetails] = useState({});
   const [storageData, setStorageData] = useContext(StorageDataCtx);
   const localStorageData = JSON.parse(localStorage.getItem('workouts'));
 
   const [inputState, setInputState] = useState({
     name: '',
-    sets: '',
-    reps: ''
+    sets: 0,
+    reps: 0
   });
 
   function handleInputChange(e) {
@@ -31,8 +32,37 @@ const Exercise = props => {
     }));
   }
 
-  function handleDeleteExercise(e) {
-    console.log(e.target.dataset.for);
+  function handleDeleteExercise() {
+    const updatedEditorState = [...editorState];
+    updatedEditorState.pop();
+    editorStateHandler(updatedEditorState);
+
+    const updatedExercises = [...storageData[dateId].exercises];
+    updatedExercises.splice(index, 1);
+    setStorageData(prevState => ({
+      ...prevState,
+      [dateId]: {
+        ...prevState[dateId],
+        exercises: updatedExercises
+      }
+    }));
+  }
+
+  function handleAddSet() {
+    const updatedNumber = storageData[dateId].exercises[index].sets + 1;
+    setInputState(prevState => ({
+      ...prevState,
+      sets: updatedNumber
+    }));
+    // const updatedExercises = [...storageData[dateId].exercises];
+    // updatedExercises[index] = { ...inputState };
+    // setStorageData(prevState => ({
+    //   ...prevState,
+    //   [dateId]: {
+    //     ...prevState[dateId],
+    //     exercises: updatedExercises
+    //   }
+    // }));
   }
 
   useEffect(() => {
@@ -59,26 +89,13 @@ const Exercise = props => {
         Sets:
         <input
           onChange={handleInputChange}
-          value={inputState.sets}
-          name="sets"
+          value={inputState.sets.toString()}
           type="number"
+          name="sets"
           id={`exercise${index}Sets`}
           className="setNumberInput"
         />
-        <button
-          type="button"
-          className="addSet"
-          onClick={() => {
-            const targetEl = document.getElementById(`exercise${index}Sets`);
-            const newObject = Object.assign({}, exerciseDetails, {
-              sets: +targetEl.value + 1
-            });
-            targetEl.value = +targetEl.value + 1;
-            setExerciseDetails(newObject);
-            localStorageData[+dateId].exercises.splice(index, 1, newObject);
-            localStorage.setItem('workouts', JSON.stringify(localStorageData));
-          }}
-        >
+        <button type="button" className="addSet" onClick={handleAddSet}>
           +
         </button>
         <button
@@ -101,10 +118,10 @@ const Exercise = props => {
       <label htmlFor={`exercise${index}Reps`} className="repNumberLabel">
         Reps:
         <input
-          value={inputState.reps}
+          value={inputState.reps.toString()}
+          type="number"
           onChange={handleInputChange}
           name="reps"
-          type="number"
           id={`exercise${index}Reps`}
           className="repNumberInput"
         />
