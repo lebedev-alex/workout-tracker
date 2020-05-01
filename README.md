@@ -1,1 +1,1 @@
-App's default color scheme depends on the user's system preference.
+App's default color scheme depends on user's system preference.
