@@ -16,14 +16,48 @@
     url("../public/fonts/roboto-bold.woff") format("woff");
 }
 
+@media (prefers-color-scheme: dark) {
+  div.colorScheme {
+    --bg-main: #0e1621;
+    --bg-secondary: #182533;
+    --font-color: #aec0d3;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  div.colorScheme {
+    --bg-main: white;
+    --bg-secondary: #f1f1f1;
+    --font-color: black;
+  }
+}
+
+.colorScheme {
+  --bg-main: #0e1621;
+  --bg-secondary: #182533;
+  --font-color: #aec0d3;
+  background-color: var(--bg-main);
+  height: 100vh;
+}
+
+.colorScheme.dark {
+  --bg-main: #0e1621;
+  --bg-secondary: #182533;
+  --font-color: #aec0d3;
+}
+
+.colorScheme.light {
+  --bg-main: white;
+  --bg-secondary: #f1f1f1;
+  --font-color: black;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: Roboto, Tahoma, sans-serif;
-  background-color: #0e1621;
-  color: #aec0d3;
   margin: 0;
 }
 
@@ -41,8 +75,9 @@ a {
 
 header {
   display: flex;
-  background-color: #17212b;
+  background-color: var(--bg-secondary);
   padding: 1vh 0 1vh 0;
+  position: relative;
 }
 
 header a {
@@ -50,8 +85,30 @@ header a {
 }
 
 .mainHeading {
-  color: #aec0d3;
+  color: var(--font-color);
   text-align: center;
+}
+
+.themeDark,
+.themeLight {
+  position: absolute;
+  top: 40%;
+  background-color: var(--bg-main);
+  color: var(--font-color);
+  border: 1px solid rgba(174, 192, 211, 1);
+  width: 4vw;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.themeDark {
+  left: 5vw;
+}
+
+.themeLight {
+  position: absolute;
+  left: 50px;
+  left: 9vw;
 }
 
 .calendar {
@@ -61,7 +118,7 @@ header a {
   width: 70vw;
   height: 80vh;
   margin: 4vh auto 4vh auto;
-  background-color: #182533;
+  background-color: var(--bg-secondary);
   border: 1px solid rgba(174, 192, 211, 0.3);
   border-radius: 5px;
   padding: 25px 0;
@@ -69,6 +126,7 @@ header a {
 
 .calendar h2 {
   margin-bottom: 15px;
+  color: var(--font-color);
 }
 
 .cellsContainer {
@@ -92,7 +150,7 @@ header a {
 
 .cellDate,
 .cellPreview {
-  color: #aec0d3;
+  color: var(--font-color);
   overflow: hidden;
 }
 
@@ -116,6 +174,7 @@ header a {
   border-radius: 5px;
   width: 70%;
   height: 90%;
+  color: var(--font-color);
 }
 
 .workoutEditor h3 {
@@ -139,7 +198,7 @@ label[for="muscleGroup"] {
   font-weight: 700;
   font-size: 0.8rem;
   background-color: #2b5278;
-  color: #aec0d3;
+  color: var(--font-color);
   border: 1px solid rgba(174, 192, 211, 0.3);
 }
 
@@ -158,7 +217,7 @@ label[for="muscleGroup"] {
   cursor: pointer;
   font-weight: 700;
   background-color: #6a2a26;
-  color: #aec0d3;
+  color: var(--font-color);
   border: 1px solid rgba(174, 192, 211, 0.3);
   padding: 0.5% 1% 0.5% 1%;
 }
@@ -185,8 +244,8 @@ label[for="muscleGroup"] {
 .exerciseNameInput,
 .setNumberInput,
 .repNumberInput {
-  background-color: #0e1621;
-  color: #aec0d3;
+  background-color: var(--bg-main);
+  color: var(--font-color);
   border: 1px solid rgba(174, 192, 211, 0.3);
   padding: 0.5%;
 }
@@ -216,15 +275,15 @@ label[for="muscleGroup"] {
   border-radius: 7px;
   padding: 4px 8px;
   cursor: pointer;
-  background-color: #0e1621;
-  color: #aec0d3;
+  background-color: var(--bg-main);
+  color: var(--font-color);
 }
 
 .addSet:hover,
 .addRep:hover,
 .removeSet:hover,
 .removeRep:hover {
-  color: #0e1621;
+  color: var(--bg-main);
   background-color: rgba(174, 192, 211, 0.7);
 }
 
@@ -232,13 +291,14 @@ label[for="muscleGroup"] {
 .addRep:active,
 .removeSet:active,
 .removeRep:active {
-  color: #0e1621;
+  color: var(--bg-main);
   background-color: rgba(174, 192, 211, 1);
 }
 
 /* DatePicker */
 .react-date-picker {
   margin-bottom: 15px;
+  color: var(--font-color);
 }
 
 .react-date-picker__wrapper {
@@ -247,9 +307,16 @@ label[for="muscleGroup"] {
 }
 
 .react-date-picker__inputGroup__input {
-  color: #aec0d3;
+  color: var(--font-color);
 }
 
 .react-date-picker__button__icon {
-  stroke: #aec0d3;
+  stroke: var(--font-color);
+}
+
+@media (max-width: 768px) {
+  .themeDark,
+  .themeLight {
+    display: none;
+  }
 }
