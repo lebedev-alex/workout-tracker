@@ -26,6 +26,14 @@ const WorkoutEditor = () => {
   }
 
   function handleAddExercise() {
+    if (!storageData[id]) {
+      setStorageData(prevState => ({
+        ...prevState,
+        [id]: {
+          musclegroup: 'nothing'
+        }
+      }));
+    }
     setStorageData(prevState => ({
       ...prevState,
       [id]: {
